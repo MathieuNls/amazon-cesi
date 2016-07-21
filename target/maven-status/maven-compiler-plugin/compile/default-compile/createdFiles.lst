@@ -1,0 +1,5 @@
+amazon/api/pojo/Book.class
+amazon/api/dao/BookDAO.class
+amazon/api/controller/BookController.class
+amazon/api/dao/BookDAO$1.class
+amazon/api/Application.class
