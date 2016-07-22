@@ -9,6 +9,13 @@ import amazon.api.dao.BookDAO;
 public class Application 
 {
 	
+	/**
+	 * RETOUR 16H
+	 * AVEC VOTRE FORK de https://github.com/MathieuNls/amazon-cesi 
+	 * AVEC DEPLOY AUTO SUR HEROKU
+	 * 
+	 * @param args
+	 */
     public static void main(String[] args){
     	
     	 SpringApplication.run(Application.class, args);

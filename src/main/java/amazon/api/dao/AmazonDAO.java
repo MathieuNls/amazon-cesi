@@ -2,6 +2,7 @@ package amazon.api.dao;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import amazon.api.pojo.IModel;
@@ -69,6 +70,10 @@ public abstract class AmazonDAO<T extends IModel> {
 		return result;
 	}
 	
+	protected void addItem(T item){
+		data.add(item);
+	}
+	
 	/**
 	 * Fetch All
 	 * @return
@@ -76,5 +81,23 @@ public abstract class AmazonDAO<T extends IModel> {
 	public List<T> fecthAll(){
 		return data;
 	}
+
+	public boolean deleteByField(String field, Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+		
+		int sizeBefore = data.size();
+		
+		for (int i = 0; i < data.size(); i++) {
+			Field innerField = data.get(i).getClass().getDeclaredField(field);
+			innerField.setAccessible(true);
+			
+			if(innerField.get(data.get(i)).equals(value)){
+				data.remove(i);
+			}
+		}
+		
+		return sizeBefore != data.size();
+	}
+	
+
 
 }

@@ -1,5 +1,6 @@
 package amazon.api;
 
+import java.sql.Date;
 import java.util.List;
 
 import amazon.api.dao.BookDAO;
@@ -12,7 +13,7 @@ public class BookAPITest extends TestCase {
 
 	public void testAllBooks(){
 		
-		List<Book> expected = BookDAO.books;
+		List<Book> expected = BookDAO.getInstance().fecthAll();
 		
 		List<Book> result = BookDAO.getInstance().fecthAll();
 		
@@ -59,6 +60,26 @@ public class BookAPITest extends TestCase {
 		
 		assertEquals(expected, result);
 		assertEquals(null,  BookDAO.getInstance().fetchOneByField(BOOKFIELD.asin, "adawdawd"));
+	}
+	
+	public void testAddBook(){
+		BookDAO.getInstance().addBook("Super Livre", "marcel", 
+			new Date(2016, 10, 10), "BOK3", "Pack", 25);
+			
+		Book expected = new Book("Super Livre", "marcel", 
+			new Date(2016, 10, 10), "BOK3", "Pack", 25);
+			
+		assertEquals(expected, BookDAO.getInstance().fetchOneByField(BOOKFIELD.asin, "BOK3"));
+		
+	}
+	
+	public void testDeleteBook(){
+		
+		Boolean ok = BookDAO.getInstance().deleteByField(BOOKFIELD.asin, "BOK3");
+		Book b = BookDAO.getInstance().fetchOneByField(BOOKFIELD.asin, "BOK3");
+		
+		assertTrue(ok);
+		assertNull(b);
 	}
 
 }
