@@ -2,7 +2,7 @@ package amazon.api.pojo;
 
 import java.sql.Date;
 
-public class Book {
+public class Book implements IModel{
 	
 	private String title; 
 	private String author;

@@ -6,7 +6,7 @@ import java.util.List;
 
 import amazon.api.pojo.Book;
 
-public class BookDAO {
+public class BookDAO extends AmazonDAO<Book> {
 	
 	public static List<Book> books 
 	= new ArrayList<Book>(){{
@@ -43,42 +43,41 @@ public class BookDAO {
 				220
 				));
 	}};
-
-	public static List<Book> fetchAll() {
-		
-		return BookDAO.books;
+	
+	public enum BOOKFIELD{
+		title, author, publicationDate, asin, publisher, pages;
 	}
 
-	public static Book fetchOneByTitle(String title) {
-		
-		for(Book b : BookDAO.books){
-			if(b.getTitle() == title){
-				return b;
-			}
+	
+	public static BookDAO getInstance(){
+		if(instance == null){
+			instance = new BookDAO();
 		}
+		return (BookDAO) instance;
+	}
+	
+	private BookDAO(){
+		this.data = books;
+	}
+	
+	public Book fetchOneByField(BOOKFIELD field, Object value){
 		
+		try {
+			return super.fetchOneByField(field.toString(), value);
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
-
-	public static List<Book> fetchAllByTitle(String title) {
+	
+	public List<Book> fetchAllByField(BOOKFIELD field, Object value){
 		
-		List<Book> result = new ArrayList<Book>();
-		for(Book b : BookDAO.books){
-			if(b.getTitle() == title){
-				result.add(b);
-			}
+		try {
+			return super.fetchAllByField(field.toString(), value);
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		return result;
-	}
-
-	public static Book fetchById(String id) {
-		for(Book b : BookDAO.books){
-			if(b.getAsin().compareTo(id) == 0){
-				return b;
-			}
-		}
-		
 		return null;
 	}
 

@@ -15,11 +15,11 @@ public class BookController {
 	public Book fetchById(@RequestParam(value="id", defaultValue="World") String id) {
 		System.err.println(id);
 		
-		Book b = BookDAO.fetchById(id);
+		Book b = BookDAO.getInstance().fetchOneByField(BookDAO.BOOKFIELD.asin, id);
 		
 		System.err.println(b);
-		
-		return BookDAO.fetchById(id);
+		//localhost:8080/book?id=B00KHTCDC2
+		return b;
 	}
 
 }

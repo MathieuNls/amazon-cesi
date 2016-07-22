@@ -1,21 +1,20 @@
 package amazon.api;
 
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 import amazon.api.dao.BookDAO;
+import amazon.api.dao.BookDAO.BOOKFIELD;
 import amazon.api.pojo.Book;
 import junit.framework.TestCase;
 
-public class BookAPI extends TestCase {
+public class BookAPITest extends TestCase {
 
 
 	public void testAllBooks(){
 		
 		List<Book> expected = BookDAO.books;
 		
-		List<Book> result = BookDAO.fetchAll();
+		List<Book> result = BookDAO.getInstance().fecthAll();
 		
 		assertEquals(expected.size(), result.size());
 		
@@ -28,18 +27,18 @@ public class BookAPI extends TestCase {
 	public void testOneBookByTitle(){
 		Book expected = BookDAO.books.get(0);
 		
-		Book result = BookDAO.fetchOneByTitle(expected.getTitle());
+		Book result = BookDAO.getInstance().fetchOneByField(BOOKFIELD.title, expected.getTitle());
 		
 		assertEquals(expected, result);
 		
 		expected = null;
-		result = BookDAO.fetchOneByTitle("plop");
+		result = BookDAO.getInstance().fetchOneByField(BOOKFIELD.title, "plop");
 		assertEquals(expected, result);
 	}
 	
 	public void testAllByTitle(){
 		List<Book> expected = BookDAO.books;
-		List<Book> result = BookDAO.fetchAllByTitle("Super Livre");
+		List<Book> result = BookDAO.getInstance().fetchAllByField(BOOKFIELD.title,"Super Livre");
 		
 		assertEquals(expected.size(), result.size());
 		
@@ -47,19 +46,19 @@ public class BookAPI extends TestCase {
 			assertEquals(expected.get(i), result.get(i));
 		}
 		
-		result = BookDAO.fetchAllByTitle("ajkwndawlnd");
+		result = BookDAO.getInstance().fetchAllByField(BOOKFIELD.title, "ajkwndawlnd");
 		assertEquals(true, result.isEmpty());
 		
-		result = BookDAO.fetchAllByTitle(null);
+		result = BookDAO.getInstance().fetchAllByField(BOOKFIELD.title,null);
 		assertEquals(true, result.isEmpty());
 	}
 	
 	public void testGetById(){
 		Book expected = BookDAO.books.get(0);
-		Book result = BookDAO.fetchById("B00KHTCDC2");
+		Book result = BookDAO.getInstance().fetchOneByField(BOOKFIELD.asin, "B00KHTCDC2");
 		
 		assertEquals(expected, result);
-		assertEquals(null,  BookDAO.fetchById("adawdawd"));
+		assertEquals(null,  BookDAO.getInstance().fetchOneByField(BOOKFIELD.asin, "adawdawd"));
 	}
 
 }
