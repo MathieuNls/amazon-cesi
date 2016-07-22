@@ -36,7 +36,7 @@ public abstract class AmazonDAO<T extends IModel> {
 			Field innerField = item.getClass().getDeclaredField(field);
 			innerField.setAccessible(true);
 			
-			if(innerField.get(item) == value){
+			if(innerField.get(item).equals(value)){
 				return item;
 			}
 		}
@@ -61,7 +61,7 @@ public abstract class AmazonDAO<T extends IModel> {
 			Field innerField = item.getClass().getDeclaredField(field);
 			innerField.setAccessible(true);
 			
-			if(innerField.get(item) == value){
+			if(innerField.get(item).equals(value)){
 				result.add(item);
 			}
 		}

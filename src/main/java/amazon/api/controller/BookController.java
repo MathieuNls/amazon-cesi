@@ -18,7 +18,6 @@ public class BookController {
 		Book b = BookDAO.getInstance().fetchOneByField(BookDAO.BOOKFIELD.asin, id);
 		
 		System.err.println(b);
-		//localhost:8080/book?id=B00KHTCDC2
 		return b;
 	}
 
