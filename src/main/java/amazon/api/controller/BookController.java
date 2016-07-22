@@ -51,6 +51,7 @@ public class BookController {
 		BookDAO.getInstance().deleteByField(BOOKFIELD.asin, id);
 	}
 	
+	@RequestMapping("/book/buy")
 	public void buyBook(
 			@RequestParam(value="id") String id){
 		
