@@ -50,5 +50,11 @@ public class BookController {
 		BookDAO.getInstance().deleteByField(BOOKFIELD.asin, id);
 	}
 	
+	public void buyBook(
+			@RequestParam(value="id") String id){
+		
+		BookDAO.getInstance().buyBook(id);
+	}
+	
 
 }

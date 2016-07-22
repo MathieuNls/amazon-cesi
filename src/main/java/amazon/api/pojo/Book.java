@@ -10,6 +10,14 @@ public class Book implements IModel{
 	private String asin;
 	private String publisher;
 	private int pages;
+	private int quantity = 0;
+	
+	public Book(String title, String author, 
+			Date publicationDate, String asin, String publisher, int pages, int qty) {
+		
+		this(title, author, publicationDate, asin, publisher, pages);
+		this.quantity = qty;
+	}
 
 	public Book(String title, String author, 
 			Date publicationDate, String asin, String publisher, int pages) {
@@ -105,7 +113,13 @@ public class Book implements IModel{
 	public void setPages(int pages) {
 		this.pages = pages;
 	}
-	
-	
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 }

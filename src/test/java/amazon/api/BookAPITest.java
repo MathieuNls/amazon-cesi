@@ -81,5 +81,27 @@ public class BookAPITest extends TestCase {
 		assertTrue(ok);
 		assertNull(b);
 	}
+	
+	public void testBuyProcess(){
+		
+		BookDAO.getInstance().addBook("Super Livre", "marcel", 
+				new Date(2016, 10, 10), "BOK353435", "Pack", 25, 30);
+		
+		
+		Book b = BookDAO.getInstance().fetchOneByField(BOOKFIELD.asin, "BOK353435");
+		
+		assertEquals(30, b.getQuantity());
+		
+		Boolean result = BookDAO.getInstance().buyBook("BOK353435");
+		
+		assertTrue(result);
+		
+		b = BookDAO.getInstance().fetchOneByField(BOOKFIELD.asin, "BOK353435");
+		
+		assertEquals(29, b.getQuantity());
+		
+		result = BookDAO.getInstance().buyBook("B00KHTCDC4");
+		
+	}
 
 }
