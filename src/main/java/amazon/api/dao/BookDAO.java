@@ -58,6 +58,7 @@ public class BookDAO extends AmazonDAO<Book> {
 	}
 	
 	private BookDAO(){
+		super("books");
 		this.data = books;
 	}
 	
@@ -85,13 +86,23 @@ public class BookDAO extends AmazonDAO<Book> {
 	public void addBook(String title, String author, 
 			Date publicationDate, String asin, String publisher, int pages) {
 		
-		super.addItem(new Book(title, author, publicationDate, asin, publisher, pages));
+		try {
+			super.addItem(new Book(title, author, publicationDate, asin, publisher, pages));
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void addBook(String title, String author, 
 			Date publicationDate, String asin, String publisher, int pages, int qty) {
 		
-		super.addItem(new Book(title, author, publicationDate, asin, publisher, pages, qty));
+		try {
+			super.addItem(new Book(title, author, publicationDate, asin, publisher, pages, qty));
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public boolean deleteByField(BOOKFIELD field, String value) {

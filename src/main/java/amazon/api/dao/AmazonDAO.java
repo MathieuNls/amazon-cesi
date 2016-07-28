@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.bson.Document;
+
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoDatabase;
+
 import amazon.api.pojo.IModel;
 
 /**
@@ -15,11 +21,23 @@ import amazon.api.pojo.IModel;
  */
 public abstract class AmazonDAO<T extends IModel> {
 	
+	private static MongoClient MONGO = new MongoClient(
+				new MongoClientURI("mongodb://amazon-api:amazon-api@ds029665.mlab.com:29665/heroku_z3h74d0s")
+			);
+	
+	private static MongoDatabase db = MONGO.getDatabase("heroku_z3h74d0s");
+	
+	private String collection;
+	
 	protected List<T> data;
 	/**
 	 * So child can be Singletons
 	 */
 	protected static AmazonDAO<? extends IModel> instance = null;
+	
+	protected AmazonDAO(String collection){
+		this.collection = collection;
+	}
 	
 	/**
 	 * Fetch One By Field
@@ -70,8 +88,21 @@ public abstract class AmazonDAO<T extends IModel> {
 		return result;
 	}
 	
-	protected void addItem(T item){
-		data.add(item);
+	protected void addItem(T item) throws IllegalArgumentException, IllegalAccessException{
+		
+		Field[] fields = item.getClass().getDeclaredFields();
+		
+		Document doc = new Document();
+		
+		for (int i = 0; i < fields.length; i++) {
+			fields[i].setAccessible(true);
+			doc.append(fields[i].getName(), fields[i].get(item));
+		}
+		
+		System.out.println(db.getClass().getSimpleName());
+		
+		db.getCollection(this.collection).insertOne(doc);
+		
 	}
 	
 	/**

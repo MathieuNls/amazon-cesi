@@ -1,7 +1,22 @@
 package amazon.api;
 
 import java.sql.Date;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.ReadConcern;
+import com.mongodb.ReadPreference;
+import com.mongodb.WriteConcern;
+import com.mongodb.client.ListCollectionsIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoIterable;
+import com.mongodb.client.model.CreateCollectionOptions;
+
 import java.util.List;
+
+import org.bson.Document;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.conversions.Bson;
 
 import amazon.api.dao.BookDAO;
 import amazon.api.dao.BookDAO.BOOKFIELD;
@@ -9,7 +24,6 @@ import amazon.api.pojo.Book;
 import junit.framework.TestCase;
 
 public class BookAPITest extends TestCase {
-
 
 	public void testAllBooks(){
 		
