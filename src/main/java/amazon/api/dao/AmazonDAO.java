@@ -103,6 +103,8 @@ public abstract class AmazonDAO<T extends IModel> {
 		
 		db.getCollection(this.collection).insertOne(doc);
 		
+		//TO remove when mock is ready
+		data.add(item);
 	}
 	
 	/**
