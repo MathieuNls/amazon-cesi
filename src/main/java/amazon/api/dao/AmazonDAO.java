@@ -21,11 +21,11 @@ import amazon.api.pojo.IModel;
  */
 public abstract class AmazonDAO<T extends IModel> {
 	
-	private static MongoClient MONGO = new MongoClient(
+	public MongoClient MONGO = new MongoClient(
 				new MongoClientURI("mongodb://amazon-api:amazon-api@ds029665.mlab.com:29665/heroku_z3h74d0s")
 			);
 	
-	private static MongoDatabase db = MONGO.getDatabase("heroku_z3h74d0s");
+	private MongoDatabase db = MONGO.getDatabase("heroku_z3h74d0s");
 	
 	private String collection;
 	

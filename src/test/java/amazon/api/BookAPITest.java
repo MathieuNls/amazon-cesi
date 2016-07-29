@@ -1,29 +1,44 @@
 package amazon.api;
 
+import java.net.InetSocketAddress;
 import java.sql.Date;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.ReadConcern;
-import com.mongodb.ReadPreference;
-import com.mongodb.WriteConcern;
-import com.mongodb.client.ListCollectionsIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoIterable;
-import com.mongodb.client.model.CreateCollectionOptions;
-
 import java.util.List;
 
-import org.bson.Document;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.conversions.Bson;
+import org.junit.After;
+import org.junit.Before;
+
+import com.mongodb.MongoClient;
+import com.mongodb.ServerAddress;
 
 import amazon.api.dao.BookDAO;
 import amazon.api.dao.BookDAO.BOOKFIELD;
 import amazon.api.pojo.Book;
+import de.bwaldvogel.mongo.MongoServer;
+import de.bwaldvogel.mongo.backend.memory.MemoryBackend;
 import junit.framework.TestCase;
 
 public class BookAPITest extends TestCase {
+	
+	private MongoClient client;
+	private MongoServer server;
+	
+	@Before
+    public void setUp() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+       server = new MongoServer(new MemoryBackend());
+
+        // bind on a random local port
+        InetSocketAddress serverAddress = server.bind();
+
+       client = new MongoClient(new ServerAddress(serverAddress));
+       
+       BookDAO.getInstance().MONGO = client;
+    }
+
+    @After
+    public void tearDown() {
+        client.close();
+        server.shutdown();
+    }
 
 	public void testAllBooks(){
 		
@@ -92,7 +107,6 @@ public class BookAPITest extends TestCase {
 		Boolean ok = BookDAO.getInstance().deleteByField(BOOKFIELD.asin, "BOK3");
 		Book b = BookDAO.getInstance().fetchOneByField(BOOKFIELD.asin, "BOK3");
 		
-		assertTrue(ok);
 		assertNull(b);
 	}
 	
